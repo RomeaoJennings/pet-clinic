@@ -20,6 +20,10 @@ public abstract class AbstractMapService<T extends BaseEntity> implements CrudSe
     }
 
     public T save(T object) {
+        if (object == null)
+            throw new IllegalArgumentException("Unable to save.  Argument 'object' cannot be null!");
+        if (object.getId() == null)
+            object.setId(getNextId());
         map.put(object.getId(), object);
         return object;
     }
@@ -30,5 +34,9 @@ public abstract class AbstractMapService<T extends BaseEntity> implements CrudSe
 
     public void delete(T object) {
         map.entrySet().removeIf(entry -> entry.getValue().equals(object));
+    }
+
+    private long getNextId() {
+        return map.size();
     }
 }

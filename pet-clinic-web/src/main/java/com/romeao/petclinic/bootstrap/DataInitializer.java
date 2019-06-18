@@ -21,12 +21,12 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        ownerService.save(new Owner(1L, "Romeao", "Jennings"));
-        ownerService.save(new Owner(2L, "Caitlin", "Jennings"));
+        ownerService.save(new Owner("Romeao", "Jennings"));
+        ownerService.save(new Owner("Caitlin", "Jennings"));
         System.out.println("Loaded owners...");
 
-        vetService.save(new Vet(1L, "Liam", "Jennings"));
-        vetService.save(new Vet(2L, "Kennedy", "Jennings"));
+        vetService.save(new Vet("Liam", "Jennings"));
+        vetService.save(new Vet("Kennedy", "Jennings"));
         System.out.println("Loaded vets...");
 
     }
