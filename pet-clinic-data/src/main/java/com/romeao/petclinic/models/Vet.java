@@ -1,10 +1,11 @@
 package com.romeao.petclinic.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Vet extends Person {
 
-    private Set<Specialty> specialization;
+    private Set<Specialty> specialities = new HashSet<>();
 
     public Vet() {
     }
@@ -13,11 +14,11 @@ public class Vet extends Person {
         super(firstName, lastName);
     }
 
-    public Set<Specialty> getSpecialization() {
-        return specialization;
+    public Set<Specialty> getSpecialities() {
+        return specialities;
     }
 
-    public void setSpecialization(Set<Specialty> specialization) {
-        this.specialization = specialization;
+    public void setSpecialization(Set<Specialty> specialties) {
+        this.specialities = specialties;
     }
 }
