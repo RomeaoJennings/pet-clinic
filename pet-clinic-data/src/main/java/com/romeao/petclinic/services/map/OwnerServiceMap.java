@@ -7,7 +7,7 @@ import com.romeao.petclinic.services.PetService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OwnerServiceMap extends AbstractMapService<Owner> implements OwnerService {
+public class OwnerServiceMap extends AbstractServiceMap<Owner> implements OwnerService {
 
     private final PetService petService;
 

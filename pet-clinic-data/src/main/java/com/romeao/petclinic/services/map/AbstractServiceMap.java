@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractMapService<T extends BaseEntity> implements CrudService<T, Long> {
+public abstract class AbstractServiceMap<T extends BaseEntity> implements CrudService<T, Long> {
     protected Map<Long, T> map = new HashMap<>();
 
     public Set<T> findAll() {
