@@ -3,6 +3,8 @@ package com.romeao.petclinic.bootstrap;
 import com.romeao.petclinic.models.*;
 import com.romeao.petclinic.services.OwnerService;
 import com.romeao.petclinic.services.VetService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,8 @@ import java.time.LocalDate;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
+
+    private final Logger log = LoggerFactory.getLogger(DataInitializer.class);
     private final OwnerService ownerService;
     private final VetService vetService;
 
@@ -20,8 +24,9 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
+        log.info("Adding bootstrap data in DataInitializer");
         PetType dog = new PetType("Dog");
         PetType cat = new PetType("Cat");
 
@@ -33,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         Owner caitlin = new Owner("Caitlin", "Jennings", "3 Carmel Valley", "Coto de Caza", "(555) 555-5556");
         romeao.getPets().add(new Pet("Cassie", cat, caitlin, LocalDate.now()));
         ownerService.save(caitlin);
-        System.out.println("Loaded owners...");
+        log.info("Loaded owners...");
 
         Specialty radiology = new Specialty("Radiology");
         Specialty dentistry = new Specialty("Dentistry");
@@ -48,6 +53,6 @@ public class DataInitializer implements CommandLineRunner {
         vetService.save(liam);
         vetService.save(kennedy);
 
-        System.out.println("Loaded vets...");
+        log.info("Loaded vets...");
     }
 }
