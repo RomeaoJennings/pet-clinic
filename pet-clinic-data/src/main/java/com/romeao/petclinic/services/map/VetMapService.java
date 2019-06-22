@@ -7,11 +7,11 @@ import com.romeao.petclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VetServiceMap extends AbstractServiceMap<Vet> implements VetService {
+public class VetMapService extends AbstractMapService<Vet> implements VetService {
 
     private final SpecialtyService specialtyService;
 
-    public VetServiceMap(SpecialtyService specialtyService) {
+    public VetMapService(SpecialtyService specialtyService) {
         this.specialtyService = specialtyService;
     }
 

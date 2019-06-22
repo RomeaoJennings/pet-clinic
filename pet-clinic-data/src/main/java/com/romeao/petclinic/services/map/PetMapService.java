@@ -6,11 +6,11 @@ import com.romeao.petclinic.services.PetTypeService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PetServiceMap extends AbstractServiceMap<Pet> implements PetService {
+public class PetMapService extends AbstractMapService<Pet> implements PetService {
 
     private final PetTypeService petTypeService;
 
-    public PetServiceMap(PetTypeService petTypeService) {
+    public PetMapService(PetTypeService petTypeService) {
         this.petTypeService = petTypeService;
     }
 
