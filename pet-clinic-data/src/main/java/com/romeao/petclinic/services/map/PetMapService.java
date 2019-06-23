@@ -3,9 +3,11 @@ package com.romeao.petclinic.services.map;
 import com.romeao.petclinic.models.Pet;
 import com.romeao.petclinic.services.PetService;
 import com.romeao.petclinic.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile({"default", "map"})
 public class PetMapService extends AbstractMapService<Pet> implements PetService {
 
     private final PetTypeService petTypeService;

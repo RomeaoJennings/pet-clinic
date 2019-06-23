@@ -4,9 +4,11 @@ import com.romeao.petclinic.models.Owner;
 import com.romeao.petclinic.models.Pet;
 import com.romeao.petclinic.services.OwnerService;
 import com.romeao.petclinic.services.PetService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile({"default", "map"})
 public class OwnerMapService extends AbstractMapService<Owner> implements OwnerService {
 
     private final PetService petService;
