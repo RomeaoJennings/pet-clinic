@@ -19,7 +19,12 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
 
     @Override
     public Owner findByLastName(String lastName) {
-        throw new RuntimeException("Not implemented");
+        for (Owner owner : map.values()) {
+            if (owner.getLastName() == lastName) {
+                return owner;
+            }
+        }
+        return null;
     }
 
     @Override
