@@ -5,6 +5,7 @@ import com.romeao.petclinic.services.CrudService;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public abstract class AbstractJpaService<T extends BaseEntity>
@@ -25,11 +26,16 @@ public abstract class AbstractJpaService<T extends BaseEntity>
 
     @Override
     public T findById(Long aLong) {
-        return repository.findById(aLong).get();
+        if (aLong == null)
+            return null;
+        Optional<T> result = repository.findById(aLong);
+        return result.isPresent() ? result.get() : null;
     }
 
     @Override
     public T save(T obj) {
+        if (obj == null)
+            throw new IllegalArgumentException("Cannot save null object.");
         return repository.save(obj);
     }
 
