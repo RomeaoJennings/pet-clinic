@@ -50,6 +50,17 @@ class OwnerMapServiceTest {
     }
 
     @Test
+    void findAllByLastNameLike() {
+        addOwner();
+        ownerService.save(new Owner("test", "person2"));
+        ownerService.save(new Owner("test", "perfume"));
+
+        assertEquals(2, ownerService.findAllByLastNameContains("person").size());
+        assertEquals(3, ownerService.findAllByLastNameContains("per").size());
+        assertEquals(1, ownerService.findAllByLastNameContains("perf").size());
+    }
+
+    @Test
     void save() {
         addOwner();
 
