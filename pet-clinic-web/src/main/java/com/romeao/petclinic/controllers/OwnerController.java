@@ -49,7 +49,7 @@ public class OwnerController {
             return "redirect:/owners/" + owner.getId();
         } else {
             // multiple owners found
-            model.addAttribute("selections", result);
+            model.addAttribute("owners", result);
             return "owners/ownersList";
         }
     }
