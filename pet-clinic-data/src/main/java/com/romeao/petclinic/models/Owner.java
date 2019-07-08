@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -59,5 +60,31 @@ public class Owner extends Person {
 
     public void setPets(Set<Pet> pets) {
         this.pets = pets;
+    }
+
+    public void addPet(Pet... newPets) {
+        for (Pet pet : newPets) {
+            pets.add(pet);
+            pet.setOwner(this);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        Owner owner = (Owner) o;
+        if (getId() != null) {
+            return getId() == owner.getId();
+        }
+        return Objects.equals(address, owner.address) &&
+                Objects.equals(city, owner.city) &&
+                Objects.equals(telephone, owner.telephone) &&
+                Objects.equals(pets, owner.pets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, city, telephone, pets);
     }
 }

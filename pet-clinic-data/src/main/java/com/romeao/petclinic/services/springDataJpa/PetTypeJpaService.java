@@ -13,4 +13,9 @@ public class PetTypeJpaService extends AbstractJpaService<PetType> implements Pe
     public PetTypeJpaService(PetTypeRepository petTypeRepository) {
         super(petTypeRepository);
     }
+
+    @Override
+    public PetType findByName(String name) {
+        return ((PetTypeRepository)repository).findByName(name);
+    }
 }
