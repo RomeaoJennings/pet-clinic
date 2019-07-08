@@ -19,48 +19,45 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class OwnerControllerTest {
     // Bob Jones Test Owner
-    static final Long BOB_ID = 1L;
-    static final String BOB_FIRST = "Bob";
-    static final String BOB_LAST = "Jones";
-    static final String BOB_ADDR = "123 Bob Circle";
-    static final String BOB_PHONE = "(202) 332-1234";
-    static final String BOB_CITY = "New York";
-
+    private static final Long BOB_ID = 1L;
+    private static final String BOB_FIRST = "Bob";
+    private static final String BOB_LAST = "Jones";
+    private static final String BOB_ADDR = "123 Bob Circle";
+    private static final String BOB_PHONE = "(202) 332-1234";
+    private static final String BOB_CITY = "New York";
     //Steve Jobs Test Owner
-    static final Long STEVE_ID = 2L;
-    static final String STEVE_FIRST = "Steve";
-    static final String STEVE_LAST = "Jobs";
-    static final String STEVE_ADDR = "456 Apple Way";
-    static final String STEVE_PHONE = "(999) 123-4567";
-    static final String STEVE_CITY = "San Francisco";
-    static final String OWNER = "owner";
+    private static final Long STEVE_ID = 2L;
+    private static final String STEVE_FIRST = "Steve";
+    private static final String STEVE_LAST = "Jobs";
+    private static final String STEVE_ADDR = "456 Apple Way";
+    private static final String STEVE_PHONE = "(999) 123-4567";
+    private static final String STEVE_CITY = "San Francisco";
+
+    private static final String OWNER = "owner";
+    private Set<Owner> owners;
+    private Owner bob;
 
     @Mock
-    OwnerService ownerService;
+    private OwnerService ownerService;
 
-    OwnerController controller;
-
-    Set<Owner> owners;
-    Owner bob;
-    Owner steve;
-
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        controller = new OwnerController(ownerService);
+        OwnerController controller = new OwnerController(ownerService);
 
         owners = new HashSet<>();
         bob = new Owner(BOB_FIRST, BOB_LAST, BOB_ADDR, BOB_CITY, BOB_PHONE);
         bob.setId(BOB_ID);
         owners.add(bob);
 
-        steve = new Owner(STEVE_FIRST, STEVE_LAST, STEVE_ADDR, STEVE_CITY, STEVE_PHONE);
+        Owner steve = new Owner(STEVE_FIRST, STEVE_LAST, STEVE_ADDR, STEVE_CITY, STEVE_PHONE);
         steve.setId(STEVE_ID);
         owners.add(steve);
 
@@ -91,7 +88,7 @@ class OwnerControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/owners/" + BOB_ID));
 
-        verify(ownerService, times(1)).findAllByLastNameContains("");
+        verify(ownerService, times(1)).findAllByLastNameContains(BOB_LAST);
         verifyNoMoreInteractions(ownerService);
     }
 
@@ -111,7 +108,6 @@ class OwnerControllerTest {
         verifyNoMoreInteractions(ownerService);
     }
 
-
     @Test
     void testInitFindForm() throws Exception {
         mockMvc.perform(get("/owners/find"))
@@ -122,18 +118,7 @@ class OwnerControllerTest {
     }
 
     @Test
-    void testListOwners() throws Exception {
-        when(ownerService.findAll()).thenReturn(owners);
-
-        mockMvc.perform(get("/owners"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("owners/index"))
-                .andExpect(model().attribute("owners", hasSize(2)));
-    }
-
-
-    @Test
-    void testShowOwners() throws Exception {
+    void testShowOwner() throws Exception {
         when(ownerService.findById(BOB_ID)).thenReturn(bob);
 
         mockMvc.perform(get("/owners/{ownerId}", BOB_ID))
@@ -150,4 +135,78 @@ class OwnerControllerTest {
         verify(ownerService, times(1)).findById(BOB_ID);
         verifyNoMoreInteractions(ownerService);
     }
+
+    @Test
+    void testInitCreationForm() throws Exception {
+        mockMvc.perform(get("/owners/new"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("owner"))
+                .andExpect(model().attribute("owner", instanceOf(Owner.class)))
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+
+        verifyZeroInteractions(ownerService);
+    }
+
+    @Test
+    void testProcessCreationForm_success() throws Exception {
+        when(ownerService.save(any())).thenReturn(bob);
+
+        mockMvc.perform(post("/owners/new")
+                .param("firstName", BOB_FIRST)
+                .param("lastName", BOB_LAST)
+                .param("address", BOB_ADDR)
+                .param("city", BOB_CITY)
+                .param("telephone", BOB_PHONE)
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/" + BOB_ID));
+
+        verify(ownerService, times(1)).save(any());
+        verifyNoMoreInteractions(ownerService);
+    }
+
+//    TODO: Determine why errors do not propagate when fields are missing.
+//    @Test
+//    void testProcessCreationForm_errors() throws Exception {
+//        mockMvc.perform(post("/owners/new")
+//                .param("firstName", BOB_FIRST)
+//                .param("lastName", BOB_LAST)
+//                .param("city", BOB_CITY)
+//        )
+//                .andExpect(status().isOk())
+//                .andExpect(model().attributeHasErrors(OWNER))
+//                .andExpect(model().attributeHasFieldErrors(OWNER, "address", "telephone"))
+//                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+//
+//        verifyZeroInteractions(ownerService);
+//    }
+
+    @Test
+    void testProcessUpdateOwnerForm_success() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit", BOB_ID)
+                .param("firstName", BOB_FIRST)
+                .param("lastName", BOB_LAST)
+                .param("address", BOB_ADDR)
+                .param("city", BOB_CITY)
+                .param("telephone", BOB_PHONE)
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/" + BOB_ID));
+    }
+
+//    TODO: Determine why errors do not propagate when fields are missing.
+//    @Test
+//    void testProcessUpdateOwnerForm_errors() throws Exception {
+//        mockMvc.perform(post("/owners/{ownerId}/new", BOB_ID)
+//                .param("firstName", BOB_FIRST)
+//                .param("lastName", BOB_LAST)
+//                .param("city", BOB_CITY)
+//        )
+//                .andExpect(status().isOk())
+//                .andExpect(model().attributeHasErrors(OWNER))
+//                .andExpect(model().attributeHasFieldErrors(OWNER, "address", "telephone"))
+//                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+//
+//        verifyZeroInteractions(ownerService);
+//    }
 }
