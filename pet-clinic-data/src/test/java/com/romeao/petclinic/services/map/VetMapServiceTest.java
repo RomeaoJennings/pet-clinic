@@ -42,13 +42,13 @@ class VetMapServiceTest {
         radiology = new Specialty("Radiology");
 
         dogVet = new Vet("Vet", "ForDogs");
-        dogVet.getSpecialities().add(dentistry);
-        dogVet.getSpecialities().add(surgery);
+        dogVet.getSpecialties().add(dentistry);
+        dogVet.getSpecialties().add(surgery);
 
         vetService.save(dogVet);
         
         catVet = new Vet("Vet", "ForCats");
-        catVet.getSpecialities().add(radiology);
+        catVet.getSpecialties().add(radiology);
     }
 
     @Test

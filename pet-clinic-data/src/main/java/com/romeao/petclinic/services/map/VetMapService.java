@@ -20,7 +20,7 @@ public class VetMapService extends AbstractMapService<Vet> implements VetService
     @Override
     public Vet save(Vet object) {
         super.save(object);
-        for (Specialty specialty : object.getSpecialities()) {
+        for (Specialty specialty : object.getSpecialties()) {
             specialtyService.save(specialty);
         }
         return object;

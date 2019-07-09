@@ -74,10 +74,10 @@ public class DataInitializer implements CommandLineRunner {
         log.info("Loaded specialties...");
 
         Vet liam = new Vet("Liam", "Jennings");
-        liam.getSpecialities().add(radiology);
-        liam.getSpecialities().add(dentistry);
+        liam.getSpecialties().add(radiology);
+        liam.getSpecialties().add(dentistry);
         Vet kennedy = new Vet("Kennedy", "Jennings");
-        kennedy.getSpecialities().add(surgery);
+        kennedy.getSpecialties().add(surgery);
 
         vetService.save(liam);
         vetService.save(kennedy);

@@ -10,7 +10,7 @@ public class Vet extends Person {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialty", joinColumns = @JoinColumn(name = "vet_id"),
             inverseJoinColumns = @JoinColumn(name = "specialty_id"))
-    private Set<Specialty> specialities = new HashSet<>();
+    private Set<Specialty> specialties = new HashSet<>();
 
     public Vet() {
     }
@@ -19,11 +19,11 @@ public class Vet extends Person {
         super(firstName, lastName);
     }
 
-    public Set<Specialty> getSpecialities() {
-        return specialities;
+    public Set<Specialty> getSpecialties() {
+        return specialties;
     }
 
-    public void setSpecialization(Set<Specialty> specialties) {
-        this.specialities = specialties;
+    public void setSpecialties(Set<Specialty> specialties) {
+        this.specialties = specialties;
     }
 }
