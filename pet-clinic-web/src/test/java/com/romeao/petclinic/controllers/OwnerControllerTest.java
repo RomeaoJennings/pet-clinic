@@ -28,14 +28,14 @@ class OwnerControllerTest {
     private static final String BOB_FIRST = "Bob";
     private static final String BOB_LAST = "Jones";
     private static final String BOB_ADDR = "123 Bob Circle";
-    private static final String BOB_PHONE = "(202) 332-1234";
+    private static final String BOB_PHONE = "2023321234";
     private static final String BOB_CITY = "New York";
     //Steve Jobs Test Owner
     private static final Long STEVE_ID = 2L;
     private static final String STEVE_FIRST = "Steve";
     private static final String STEVE_LAST = "Jobs";
     private static final String STEVE_ADDR = "456 Apple Way";
-    private static final String STEVE_PHONE = "(999) 123-4567";
+    private static final String STEVE_PHONE = "9991234567";
     private static final String STEVE_CITY = "San Francisco";
 
     private static final String OWNER = "owner";
@@ -165,21 +165,20 @@ class OwnerControllerTest {
         verifyNoMoreInteractions(ownerService);
     }
 
-//    TODO: Determine why errors do not propagate when fields are missing.
-//    @Test
-//    void testProcessCreationForm_errors() throws Exception {
-//        mockMvc.perform(post("/owners/new")
-//                .param("firstName", BOB_FIRST)
-//                .param("lastName", BOB_LAST)
-//                .param("city", BOB_CITY)
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(model().attributeHasErrors(OWNER))
-//                .andExpect(model().attributeHasFieldErrors(OWNER, "address", "telephone"))
-//                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
-//
-//        verifyZeroInteractions(ownerService);
-//    }
+    @Test
+    void testProcessCreationForm_errors() throws Exception {
+        mockMvc.perform(post("/owners/new")
+                .param("firstName", BOB_FIRST)
+                .param("lastName", BOB_LAST)
+                .param("city", BOB_CITY)
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors(OWNER))
+                .andExpect(model().attributeHasFieldErrors(OWNER, "address", "telephone"))
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+
+        verifyZeroInteractions(ownerService);
+    }
 
     @Test
     void testProcessUpdateOwnerForm_success() throws Exception {
@@ -194,19 +193,18 @@ class OwnerControllerTest {
                 .andExpect(view().name("redirect:/owners/" + BOB_ID));
     }
 
-//    TODO: Determine why errors do not propagate when fields are missing.
-//    @Test
-//    void testProcessUpdateOwnerForm_errors() throws Exception {
-//        mockMvc.perform(post("/owners/{ownerId}/new", BOB_ID)
-//                .param("firstName", BOB_FIRST)
-//                .param("lastName", BOB_LAST)
-//                .param("city", BOB_CITY)
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(model().attributeHasErrors(OWNER))
-//                .andExpect(model().attributeHasFieldErrors(OWNER, "address", "telephone"))
-//                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
-//
-//        verifyZeroInteractions(ownerService);
-//    }
+    @Test
+    void testProcessUpdateOwnerForm_errors() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit", BOB_ID)
+                .param("firstName", BOB_FIRST)
+                .param("lastName", BOB_LAST)
+                .param("city", BOB_CITY)
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors(OWNER))
+                .andExpect(model().attributeHasFieldErrors(OWNER, "address", "telephone"))
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+
+        verifyZeroInteractions(ownerService);
+    }
 }

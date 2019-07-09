@@ -3,6 +3,9 @@ package com.romeao.petclinic.models;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -10,8 +13,16 @@ import java.util.Set;
 @Entity
 public class Owner extends Person {
 
+    @NotBlank
+    @Size(min = 1, max = 50)
     private String address;
+
+    @NotBlank
+    @Size(min = 1, max = 50)
     private String city;
+
+    @NotBlank
+    @Digits(fraction = 0, integer = 10)
     private String telephone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

@@ -44,8 +44,8 @@ public class DataInitializer implements CommandLineRunner {
         petTypeService.save(dog);
         log.info("Loaded pet types...");
 
-        Owner romeao = new Owner("Romeao", "Jennings", "18 Wakonda", "Dove Canyon", "(555) 555-5555");
-        Owner caitlin = new Owner("Caitlin", "O'Neill", "3 Carmel Valley", "Coto de Caza", "(555) 555-5556");
+        Owner romeao = new Owner("Romeao", "Jennings", "18 Wakonda", "Dove Canyon", "5555555555");
+        Owner caitlin = new Owner("Caitlin", "O'Neill", "3 Carmel Valley", "Coto de Caza", "5555555556");
 
         Pet sasha = new Pet("Sasha", dog, romeao, LocalDate.now());
         Pet cassie = new Pet("Cassie", cat, caitlin, LocalDate.now());

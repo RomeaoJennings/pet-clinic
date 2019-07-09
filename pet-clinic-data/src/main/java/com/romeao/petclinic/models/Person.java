@@ -1,10 +1,18 @@
 package com.romeao.petclinic.models;
 
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @MappedSuperclass
 public class Person extends BaseEntity {
+
+    @NotBlank
+    @Size(min = 1, max = 30)
     private String firstName;
+
+    @NotBlank
+    @Size(min = 1, max = 30)
     private String lastName;
 
     public Person() {

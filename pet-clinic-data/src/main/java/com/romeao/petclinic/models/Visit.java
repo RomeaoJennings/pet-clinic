@@ -1,14 +1,22 @@
 package com.romeao.petclinic.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
 public class Visit extends BaseEntity {
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
+    @NotBlank
+    @Size(min = 3, max = 255)
     private String description;
 
     @ManyToOne
